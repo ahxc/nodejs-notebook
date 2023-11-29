@@ -112,6 +112,7 @@ const server = http.createServer((request, response) => {
         }
     });
 
+    // 静态资源返回原理
     switch (pathname) {
         case '/': // 主页面
             response.end(html);

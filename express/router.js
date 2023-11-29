@@ -15,6 +15,9 @@ app.all('/test', (req, res) => {
     res.end();
 });
 
+// 通配符，404等场景
+app.all('*', (req, res) => { });
+
 app.get('/request', (req, res) => {
     console.log(req.method);
     console.log(req.url);

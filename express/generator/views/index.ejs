@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%=title %>
+  </title>
+  <link
+    rel='stylesheet'
+    href='/stylesheets/style.css'
+  />
+</head>
+
+<body>
+  <!-- 表单上传必须属性multipart/form-data加密 -->
+  <form
+    action="/users/portrait"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    用户名：<input
+      type="text"
+      name="username"
+    ><br>
+    头像：<input
+      type="file"
+      name="portrait"
+    >
+    <button>提交</button>
+  </form>
+</body>
+
+</html>
