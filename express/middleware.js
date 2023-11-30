@@ -3,7 +3,10 @@
 
 const expresss = require('express');
 const fs = require('fs');
+const session = require('express-session');
 const path = require('path');
+const jwt = require('jsonwebtoken');
+const { token } = require('morgan');
 
 const app = expresss();
 
@@ -45,8 +48,60 @@ app.get('/setting', checkCode, (req, res) => {
 */
 // 该中间件不需要你编写路由1.区分path是何种静态资源，2.然后fs读取，3.response.end返回静态资源
 // 需要一个根目录，他会自己在根目录查找返回。还会自动设置mime类型
-// 路径举例：/css/index.css，如果无路径，默认重定向文件夹下的index.html
+// 路径举例：/css/index.css，如果无路径，默认重定向静态文件目录下的index.html
 app.use(expresss.static(__dirname + '/public'));
+
+/* 
+登录判断中间件大概原理
+*/
+function checkLogin(req, res, next) {
+    if (!req.session.username) {
+        return res.redirect('/login');
+    }
+    next();
+}
+
+/* 
+session中间件
+*/
+app.use(session({
+    name: 'sid',
+    secret: '签名',
+    saveUnitialized: false,
+    resave: true,
+    store: MongoStore.create({
+        mongoUrl: 'mongodb://127.0.0.1:27017/project'
+    }),
+    cookie: {
+        httpOnly: true, // js无法操作cookie，跨站请求脚本攻击。xss
+        maxAge: 1000 * 30, // sessionId国企时间
+    }
+}));
+// 简单模拟登录会话原理
+app.get('/login', (req, res) => {
+    if (req.query.username === 'admin' && req.query.password === 'admin') {
+        req.session.username = 'admin';
+        req.session.uid = 'sddf23432fdd';
+        res.send('登陆成功');
+    }
+    else {
+        res.send('登录失败');
+    }
+    // 登录判断
+    if (req.session.username) {
+        res.send('页面');
+    }
+    // 注销
+    req.session.destroy();
+
+    // token
+    // 和小程序步骤一致。服务端拿到用户登录数据后用中间件生成。返回给客户端，客户端请求回调获取成功后保存至本地。
+    // 校验
+    jwt.verify(token, 'sdfasdf', (err, data) => { });
+});
+
+
+
 
 /* 
 防盗链中间件，盗链即把外部网站的资源链接复制到自己的项目中，原理referer不是主域名则发送404.

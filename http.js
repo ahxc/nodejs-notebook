@@ -178,3 +178,59 @@ const mime = {
 };
 // mime设置更规范可加可不加，但有时可以解决一些乱码问题，此处多加了字符集。
 // response.setHeader('content-type', 'text/html;charset=utf-8');
+
+
+// 参考汇总
+
+// 属性：
+
+// http.globalAgent：全局的http agent，用于控制所有http请求的代理设置。
+// http.Agent：用于创建新的http agent实例，用于控制单个http请求的代理设置。
+// http.METHODS：列出所有支持的HTTP方法，例如GET、POST、DELETE等。
+
+// 方法：
+
+// http.createServer([requestListener])：创建一个新的HTTP服务器，使用requestListener处理每个请求。
+// http.request(options[, callback])：创建一个新的HTTP客户端请求，可以通过options参数设置请求选项，如请求方法、请求头、请求路径等，使用callback处理响应数据。
+// http.get(options[, callback])：创建一个新的HTTP GET请求，与http.request()相似，但自动设置HTTP方法为GET，并自动调用response.end()方法。
+// http.Agent.prototype.request(options[, callback])：创建一个新的HTTP客户端请求，与http.request()相似，但可以通过Agent选项设置代理设置。
+// http.Agent.prototype.sockets：一个WebSocket对象，用于监听新的连接事件。
+// http.Agent.prototype.freeSockets：一个WebSocket对象，用于监听空闲连接事件。
+// http.globalAgent.maxSockets：全局最大连接数限制。
+// http.globalAgent.sockets：全局所有正在连接的Socket组成的数组。
+// http.globalAgent.freeSockets：全局所有空闲的Socket组成的数组。
+// http.globalAgent.keepAlive：是否启用长连接模式。
+// http.ClientRequest.prototype.end([data][, encoding][, callback])：结束请求，可指定发送的数据和编码方式，或指定回调函数处理响应数据。
+// http.ClientRequest.prototype.abort()：中止请求，关闭连接。
+// http.httpSocketShutdown(callback)关闭当前Socket与服务器的连接。
+// http.ServerResponse.prototype.writeHead(statusCode[, statusMessage][, headers])：发送HTTP响应头，包括状态码、响应头信息等。
+// http.ServerResponse.prototype.end([data][, encoding][, callback])：结束响应，可指定发送的数据和编码方式，或指定回调函数处理响应数据。
+// http.ServerResponse.prototype.write(chunk[, encoding][, callback])：发送响应数据块。
+// http.ServerResponse.prototype.addTrailers(headers)添加HTTP响应尾部信息。
+// http.ServerResponse.prototype.setTimeout(msecs, callback)设置超时时间。
+// http.ServerResponse.prototype.flushHeaders()发送响应头信息到客户端并关闭内部缓冲区。
+// http.ServerResponse.prototype._implicitHeader()设置响应头信息并发送给客户端。
+
+// 属性方法：
+
+// response.statusCode：HTTP响应的状态码，例如200、404等。
+// response.statusMessage：HTTP响应的状态消息，例如"OK"、"Not Found"等。
+// response.headers：HTTP响应的头部信息，以对象形式表示。
+// response.body：HTTP响应的主体内容。
+// response.method：HTTP请求的方法，例如GET、POST等。
+// response.url：HTTP请求的URL。
+// response.connection：连接对象，表示与客户端的连接。
+// response.locals：一个对象，用于存储在请求期间有效的数据。
+// response.append(name, value)：添加一个HTTP响应头部的额外字段。
+// response.remove(name)：删除一个HTTP响应头部的字段。
+// response.set(name, value)：设置一个HTTP响应头部的字段的值。
+
+// 属性：
+
+// response.req：请求对象，表示客户端发送的HTTP请求。
+// response.res：响应对象，表示服务器的HTTP响应。
+// response.locals：一个对象，用于存储在请求期间有效的数据。
+// response.cookies：一个Cookie对象，用于设置和获取HTTP响应中的Cookie。
+// response.signedCookies：一个已签名的Cookie对象，用于获取已签名的Cookie。
+// response.redirects：一个数组，用于跟踪HTTP重定向的次数。
+// response.close()：关闭与客户端的连接。
