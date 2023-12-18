@@ -6,7 +6,6 @@ const fs = require('fs');
 const session = require('express-session');
 const path = require('path');
 const jwt = require('jsonwebtoken');
-const { token } = require('morgan');
 
 const app = expresss();
 
@@ -96,8 +95,38 @@ app.get('/login', (req, res) => {
 
     // token
     // 和小程序步骤一致。服务端拿到用户登录数据后用中间件生成。返回给客户端，客户端请求回调获取成功后保存至本地。
+
+    UserModel.findOne({ username: req.username, password: md5(req.password) }, (err, data) => {
+        // err 登录失败
+
+        // data 登陆成功
+        // 生成token，通过用户的请求返回
+        const token = jwt.sign(
+            {
+                username: data.username,
+                _id: data._id,
+            },
+            '签名编号值',
+            {
+                expiresIn: 60// 有效期，秒
+            }
+        )
+        res.json({
+            code: '200',
+            data: token // {token:token} 
+            // 后续请求放在header中的Authorization中
+        })
+    })
+
+
     // 校验
-    jwt.verify(token, 'sdfasdf', (err, data) => { });
+    jwt.verify(token, '签名编号值', (err, data) => {
+
+        res.json({
+            code: '200', // 500
+            data: '成功/失败'
+        })
+    });
 });
 
 
