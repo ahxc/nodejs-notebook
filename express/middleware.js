@@ -73,7 +73,7 @@ app.use(session({
     }),
     cookie: {
         httpOnly: true, // js无法操作cookie，跨站请求脚本攻击。xss
-        maxAge: 1000 * 30, // sessionId国企时间
+        maxAge: 1000 * 30, // sessionId 过期时间
     }
 }));
 // 简单模拟登录会话原理
